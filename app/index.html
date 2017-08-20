@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Courseweb Notifier</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+
+    <!--Bootstrap scripts-->
+    <script>window.$ = window.jQuery = require('./js/jquery-3.1.0.min.js');</script>
+    <script src="js/bootstrap.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <!--<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>-->
+    <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
+    <!--[endif]-->
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <h1 style="margin-top: 8%;" class="text-center">Courseweb <small>Notifier <small>&copy</small></small></h1>
+        <hr>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-xs-offset-3">
+            <form role="form" method="post" action="#">
+                <div class="form-group">
+                    <input type="text" id="UserID" name="UserID" class="form-control input-sm" placeholder="User ID" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="pass" name="pass" class="form-control input-sm" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="exit" class="btn btn-danger btn-sm pull-right">Exit</button>
+                    <button style="margin-right: 10px" type="submit" id="submit" class="btn btn-success btn-sm pull-right">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+    var {ipcRenderer} = require('electron');
+
+    //sending a message to close the main window from renderer process
+    var exitFromLoginScreen = document.querySelector('#exit');
+
+    exitFromLoginScreen.addEventListener('click',function () {
+        ipcRenderer.send('close-main-window','null')
+    });
+
+    //open a new window
+    var loginForm = document.querySelector('form');
+    loginForm.addEventListener('submit', function (event) {
+
+        var UserID = loginForm.UserID.value;
+        var Password = loginForm.pass.value;
+        //event.preventDefault();
+        ipcRenderer.send('login-to-site',{UserID, Password});
+    });
+
+</script>
+
+<div style="margin-top: 8%;" class="panel-footer pull-right text-warning">
+    <small>BasuruK</small>
+    <small>alpha</small>
+</div>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Courseweb Notifier</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/sidebar.css" rel="stylesheet">
+
+    <!--Bootstrap scripts-->
+    <script>window.$ = window.jQuery = require('./js/jquery-3.1.0.min.js');</script>
+    <script src="js/bootstrap.js"></script>
+
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <!--<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>-->
+    <!--<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>-->
+    <!--[endif]-->
+    <script>
+        var db = require("../database.js");
+    </script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-3" style="right: 15px;">
+            <div class="nav-side-menu">
+                <div class="brand">Courseweb <small>Notifier</small></div>
+                <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+                <div class="menu-list">
+                    <ul id="menu-content" class="menu-content collapse out">
+                        <li class="active">
+                            <a href="#">
+                                <i class="fa fa-home fa-lg"></i> Home
+                            </a>
+                        </li>
+                        <li id="myCourses">
+                            <a href="#">
+                                <i class="fa fa-book fa-lg"></i> My Courses
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-user fa-lg"></i> Profile
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-gear fa-lg"></i> Settings
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-2">
+            <h1 class="text-center">Welcome</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-1 col-xs-offset-11" style="bottom: 70px;">
+                <h5 class="">
+                    <script>
+                        document.write(db.getUserID());
+                    </script>
+                </h5>
+                <a href="#" id="logout" class="btn btn-default btn-sm logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <hr style="margin-top: -58px;">
+    </div>
+
+    <div class="row">
+        <br>
+        <div class="col-xs-4 col-xs-offset-3">
+            <p style="text-align: justify"><b>Courseweb Notifier</b> is a small software developed to keep track of your
+            enrolled courses pages in reach. With the use of this software you don't need to
+                log in to courseweb every day and check all the courses you are enrolled in.
+                You can add the courses you are currently enrolled and this software will use
+                its keenly defined algorithms to notify you if there are any changes in the pages
+                of the subject you are enrolled to.
+            </p>
+
+            <hr>
+
+            <p style="text-align: justify" ><b>Why use Courceweb Notifier</b>
+            isn't it always troubling and time consuming to check on each page every day for no reason ?
+            </p>
+
+            <hr>
+
+            <p style="text-align: justify" ><b>Why is this better ?</b>
+            Well, have you seen the courseweb site ? is it easy to use it ? or do you fell like
+                you are walking on a pile of dead bodies when you are going here and there in
+                courseweb ?
+            </p>
+        </div>
+        <div class="col-xs-4">
+            <img src="../images/HYDRA_Logo_Black_Trans.png" height="430" width="430" style="margin-top: -25px;">
+        </div>
+    </div>
+
+</div>
+<script>
+    var ipcRenderer = require('electron').ipcRenderer;
+
+    //When logout button click
+    var logout = document.querySelector('#logout');
+    logout.addEventListener('click',function (event) {
+        db.deleteUser();
+        ipcRenderer.send('logout-on-mainWindow');
+    });
+
+    var myCourses = document.querySelector('#myCourses');
+    myCourses.addEventListener('click',function (event) {
+        ipcRenderer.send('myCourses-click');
+    });
+</script>
+</body>
+</html>

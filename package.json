@@ -1,0 +1,14 @@
+{
+  "name": "electron",
+  "version": "1.0.0",
+  "description": "my first electron app",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "author": "BasuruK",
+  "license": "ISC",
+  "dependencies": {
+    "sql.js": "^0.3.2"
+  }
+}
